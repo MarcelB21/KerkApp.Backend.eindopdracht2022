@@ -1,17 +1,17 @@
 package nl.novi.backend.spring.api.kerkapp.Entittiy;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @Entity
+@Table(name = "bible", schema = "public")
 public class Bible {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Long id;
 
     @Column(name = "Book")
     private int Book;
@@ -23,11 +23,23 @@ public class Bible {
     private int Verse;
     
     @Column(name = "Scripture")
+    @Type(type = "text")
     private String Scripture;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "Id")
-    private Long id;
+    public Bible(int book, int chapter, int verse, String scripture) {
+        Book = book;
+        Chapter = chapter;
+        Verse = verse;
+        Scripture = scripture;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
 }
