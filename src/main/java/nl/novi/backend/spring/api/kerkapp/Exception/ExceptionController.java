@@ -1,6 +1,5 @@
-package nl.novi.backend.spring.api.kerkapp.Controller;
+package nl.novi.backend.spring.api.kerkapp.Exception;
 
-import nl.novi.backend.spring.api.kerkapp.Exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,9 +10,9 @@ public class ExceptionController {
 
     @ExceptionHandler(value = RecordNotFoundException.class)
 
-    public ResponseEntity<Object> Exception(RecordNotFoundException RNFexception){
+    public ResponseEntity<Object> Exception(RecordNotFoundException exception){
 
-        return new ResponseEntity<>(RNFexception.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
 }
