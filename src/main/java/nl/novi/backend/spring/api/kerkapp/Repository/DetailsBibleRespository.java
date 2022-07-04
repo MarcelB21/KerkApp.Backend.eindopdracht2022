@@ -1,6 +1,6 @@
 package nl.novi.backend.spring.api.kerkapp.Repository;
 
-import nl.novi.backend.spring.api.kerkapp.Entittiy.DetailsBible;
+import nl.novi.backend.spring.api.kerkapp.Entitiy.DetailsBible;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
