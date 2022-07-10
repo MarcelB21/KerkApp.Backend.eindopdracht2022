@@ -1,11 +1,9 @@
 package nl.novi.backend.spring.api.kerkapp.Entitiy;
 
-import org.hibernate.annotations.Table;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name="Creed", schema = "public")
+@Table (name = "creed", schema = "public")
 public class ApologeticCreed {
 
     @Id
