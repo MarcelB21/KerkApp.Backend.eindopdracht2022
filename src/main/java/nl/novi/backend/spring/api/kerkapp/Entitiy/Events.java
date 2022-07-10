@@ -12,16 +12,16 @@ public class Events {
     @Column(name = "Ïd")
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String Description;
 
-    @Column(name = "start")
+    @Column(name = "start", nullable = false)
     private LocalDateTime start;
 
-    @Column(name = "finish")
+    @Column(name = "finish", nullable = false)
     private LocalDateTime finish;
 
     public Events() {
