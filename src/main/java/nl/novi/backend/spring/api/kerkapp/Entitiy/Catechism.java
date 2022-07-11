@@ -17,11 +17,21 @@ public class Catechism {
     @Column(name = "zondag")
     private int zondag;
 
-    @Column(name = "vraag")
+    @Column(name = "vraag", columnDefinition = "text")
     private String vraag;
 
-    @Column(name = "antwoord")
+    @Column(name = "antwoord", columnDefinition = "text")
     private String antwoord;
+
+    public Catechism(int deel, int zondag, String vraag, String antwoord) {
+        this.deel = deel;
+        this.zondag = zondag;
+        this.vraag = vraag;
+        this.antwoord = antwoord;
+    }
+
+    public Catechism() {
+    }
 
     public Long getId() {
         return id;
@@ -63,10 +73,4 @@ public class Catechism {
         this.antwoord = antwoord;
     }
 
-    public Catechism(int deel, int zondag, String vraag, String antwoord) {
-        this.deel = deel;
-        this.zondag = zondag;
-        this.vraag = vraag;
-        this.antwoord = antwoord;
-    }
 }
