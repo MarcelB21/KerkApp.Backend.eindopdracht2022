@@ -32,4 +32,10 @@ public class CatechismController {
         List<Catechism> catechisms = catechismService.getByDeelCatechism(deel);
         return ResponseEntity.ok().body(catechisms);
     }
+
+    @GetMapping("/Catechisms/{deel}/{zondag}")
+    public ResponseEntity<List<Catechism>> getByDeelCatechism(@PathVariable (value = "deel", required = false) int deel, @PathVariable(value = "zondag", required = false) int zondag) {
+        List<Catechism> catechisms = catechismService.findByDeelAndZondag(deel, zondag);
+        return ResponseEntity.ok().body(catechisms);
+    }
 }

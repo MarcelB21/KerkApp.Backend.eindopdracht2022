@@ -37,7 +37,6 @@ public class Bible {
         Scripture = scripture;
     }
 
-
     public Long getId() {
         return id;
     }

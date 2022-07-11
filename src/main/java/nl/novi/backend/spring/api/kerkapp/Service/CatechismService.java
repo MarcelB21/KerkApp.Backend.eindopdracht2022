@@ -29,4 +29,9 @@ public class CatechismService {
         List<Catechism> catechisms = CatechismRepository.findByDeel(deel);
         return catechisms;
     }
+
+    public List<Catechism> findByDeelAndZondag(int deel, int zondag) {
+        List<Catechism> catechisms = CatechismRepository.findByDeelAndZondag(deel, zondag);
+        return catechisms;
+    }
 }
