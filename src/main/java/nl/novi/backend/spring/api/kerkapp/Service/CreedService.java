@@ -16,7 +16,7 @@ public class CreedService {
     }
 
     public List<ApologeticCreed> getAllCreed() {
-        List<ApologeticCreed> creed = CreedRespository().findAll();
+        List<ApologeticCreed> creed = creedRespository.findAll();
         return creed;
     }
 

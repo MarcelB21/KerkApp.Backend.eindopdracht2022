@@ -10,7 +10,7 @@
     </parent>
     <groupId>nl.novi.backend.spring.api</groupId>
     <artifactId>KerkApp</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <name>KerkApp</name>
     <description>KerkApp</description>
     <properties>
