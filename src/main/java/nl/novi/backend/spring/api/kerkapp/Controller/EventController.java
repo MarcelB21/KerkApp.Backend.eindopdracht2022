@@ -3,6 +3,7 @@ package nl.novi.backend.spring.api.kerkapp.Controller;
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Events;
 import nl.novi.backend.spring.api.kerkapp.Exception.BadDateFormatException;
 import nl.novi.backend.spring.api.kerkapp.Repository.EventJpaRepository;
+import nl.novi.backend.spring.api.kerkapp.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,11 @@ public class EventController {
 
     @Autowired
     private EventJpaRepository eventJpaRepository;
+    private EventService EventService;
 
-    @RequestMapping(value="/allevents", method=RequestMethod.GET)
-    public List<Events> allEvents() {
-        return eventJpaRepository.findAll();
+    @GetMapping (value="/allevents")
+    public List<Events> getAllEvents() {
+        return EventService.findAll();
     }
 
     @RequestMapping(value="/event", method=RequestMethod.POST)

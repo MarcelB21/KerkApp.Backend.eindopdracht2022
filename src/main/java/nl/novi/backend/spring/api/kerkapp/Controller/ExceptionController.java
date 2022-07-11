@@ -1,5 +1,6 @@
-package nl.novi.backend.spring.api.kerkapp.Exception;
+package nl.novi.backend.spring.api.kerkapp.Controller;
 
+import nl.novi.backend.spring.api.kerkapp.Exception.RecordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
