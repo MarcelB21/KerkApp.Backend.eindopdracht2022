@@ -1,72 +1,43 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Events;
-import nl.novi.backend.spring.api.kerkapp.Exception.BadDateFormatException;
-import nl.novi.backend.spring.api.kerkapp.Repository.EventJpaRepository;
 import nl.novi.backend.spring.api.kerkapp.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 public class EventController {
 
+    private final EventService EventService;
+
     @Autowired
-    private EventJpaRepository eventJpaRepository;
-    private EventService EventService;
+    public EventController(EventService EventService) {
+        this.EventService = EventService;
+    }
 
     @GetMapping (value="/allevents")
     public List<Events> getAllEvents() {
-        return EventService.findAll();
+        return getAllEvents();
     }
 
-    @RequestMapping(value="/event", method=RequestMethod.POST)
-    public Events addEvent(@RequestBody Events events) {
-        Events created = eventJpaRepository.save(events);
-        return created;
+    @PostMapping (value="/event")
+    public Events addEvent() {
+        return addEvent();
     }
 
-    @RequestMapping(value="/event", method=RequestMethod.PATCH)
-    public Events updateEvent(@RequestBody Events events) {
-        return eventJpaRepository.save(events);
+    @PatchMapping(value="/event")
+    public Events updateEvent() {
+        return updateEvent();
     }
 
-    @RequestMapping(value="/event", method=RequestMethod.DELETE)
-    public void removeEvent(@RequestBody Events events) {
-        eventJpaRepository.delete(events);
+    @DeleteMapping(value="/event")
+    public void removeEvent() {
     }
 
-    @RequestMapping(value="/events", method=RequestMethod.GET)
-    public List<Events> getEventsInRange(@RequestParam(value = "start", required = true) String start,
-                                         @RequestParam(value = "end", required = true) String end) {
-        Date startDate = null;
-        Date endDate = null;
-        SimpleDateFormat inputDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-
-        try {
-            startDate = inputDateFormat.parse(start);
-        } catch (ParseException e) {
-            throw new BadDateFormatException("bad start date: " + start);
-        }
-
-        try {
-            endDate = inputDateFormat.parse(end);
-        } catch (ParseException e) {
-            throw new BadDateFormatException("bad end date: " + end);
-        }
-
-        LocalDateTime startDateTime = LocalDateTime.ofInstant(startDate.toInstant(),
-                ZoneId.systemDefault());
-
-        LocalDateTime endDateTime = LocalDateTime.ofInstant(endDate.toInstant(),
-                ZoneId.systemDefault());
-
-        return eventJpaRepository.findByStartGreaterThanEqualAndFinishLessThanEqual(startDateTime, endDateTime);
+    @GetMapping(value="/events")
+    public List<Events> getEventsInRange() {
+        return getEventsInRange();
     }
 }

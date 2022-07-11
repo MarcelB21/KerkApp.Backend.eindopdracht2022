@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public interface EventJpaRepository extends JpaRepository<Events, Long> {
-    List<Events> findAll();
-    Events save(Events events);
-    void delete(Events events);
+//    List<Events> findAll();
+//    Events save(Events events);
+//    void delete(Events events);
 
     public List<Events> findByStartGreaterThanEqualAndFinishLessThanEqual(LocalDateTime start, LocalDateTime end);
 
