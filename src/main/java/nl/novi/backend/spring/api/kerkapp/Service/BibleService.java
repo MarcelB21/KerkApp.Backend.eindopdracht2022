@@ -25,7 +25,7 @@ public class BibleService {
       return bibleRepository.findByBooknameIgnoreCase(bookname);
    }
 
-   public Optional<Bible> getByChapter(String bookname, int chapter) {
+   public List<Bible> getByChapter(String bookname, int chapter) {
       return bibleRepository.findByBooknameIgnoreCaseAndChapter(bookname, chapter);
    }
 

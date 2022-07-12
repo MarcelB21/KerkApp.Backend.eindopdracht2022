@@ -33,8 +33,8 @@ public class BibleController {
     }
 
     @GetMapping("/Bible/{bookname}/{chapter}")
-    public ResponseEntity<Optional<Bible>> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
-        Optional<Bible> foundChapter = bibleService.getByChapter(bookname, chapter);
+    public ResponseEntity<List<Bible>> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
+        List<Bible> foundChapter = bibleService.getByChapter(bookname, chapter);
         return ResponseEntity.ok().body(foundChapter);
     }
 

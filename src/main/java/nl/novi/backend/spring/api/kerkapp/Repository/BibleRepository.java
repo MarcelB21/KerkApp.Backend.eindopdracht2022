@@ -14,7 +14,7 @@ public interface BibleRepository extends JpaRepository<Bible, Long> {
 
     Optional<Bible> findByBookAndChapterAndVerse(int book, int chapter, int verse);
 
-    Optional<Bible> findByBooknameIgnoreCaseAndChapter(String bookname, int chapter);
+    List<Bible> findByBooknameIgnoreCaseAndChapter(String bookname, int chapter);
 
     Optional<Bible> findByBooknameIgnoreCaseAndChapterAndVerse(String bookname, int chapter, int verse);
 
