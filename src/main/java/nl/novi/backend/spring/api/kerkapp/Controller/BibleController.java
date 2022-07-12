@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,16 +20,16 @@ public class BibleController {
         this.bibleService = bibleService;
     }
 
-    @GetMapping("/Bible/{id}")
-    public ResponseEntity<Optional<Bible>> getSciptureById(@PathVariable Long id) {
+    @GetMapping("/Bible/scripture/{id}")
+    public ResponseEntity<Optional<Bible>> getScriptureById(@PathVariable Long id) {
         Optional<Bible> foundVerse = bibleService.getScriptureById(id);
         return ResponseEntity.ok().body(foundVerse);
     }
 
     @GetMapping("/Bible/{bookname}")
-    public ResponseEntity<Optional<Bible>> getByBibleBook(@PathVariable String bookname) {
-        Optional<Bible> foundBook = bibleService.getBibleBook(bookname);
-        return ResponseEntity.ok().body(foundBook);
+    public ResponseEntity<List<Bible>> getByBibleBook(@PathVariable String bookname) {
+        List<Bible> foundBooks = bibleService.getBibleBook(bookname);
+        return ResponseEntity.ok().body(foundBooks);
     }
 
     @GetMapping("/Bible/{bookname}/{chapter}")
@@ -37,7 +38,7 @@ public class BibleController {
         return ResponseEntity.ok().body(foundChapter);
     }
 
-    @GetMapping("/Bible/{book}/{chapter}/{verse}")
+    @GetMapping("/Bibles/{book}/{chapter}/{verse}")
     public ResponseEntity<Optional<Bible>> getVerse(@PathVariable int book, @PathVariable int chapter, @PathVariable int verse) {
         Optional<Bible> TGfoundVerse = bibleService.getVerse(book, chapter, verse);
         return ResponseEntity.ok().body(TGfoundVerse);

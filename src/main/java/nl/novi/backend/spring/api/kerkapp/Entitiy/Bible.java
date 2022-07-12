@@ -16,8 +16,7 @@ public class Bible {
     @Column(name = "book")
     public int book;
 
-    @Column(name = "bookname")
-    @Type(type = "text")
+    @Column(name = "bookname", length = 2048)
     public String bookname;
 
     @Column(name = "chapter")
@@ -26,15 +25,18 @@ public class Bible {
     @Column(name = "verse")
     private int verse;
     
-    @Column(name = "scripture")
-    @Type(type = "text")
+    @Column(name = "scripture", length = 2048)
     private String scripture;
 
-    public Bible(int book, int chapter, int verse, String scripture) {
-        book = book;
-        chapter = chapter;
-        verse = verse;
-        scripture = scripture;
+    public Bible(int book, int chapter, int verse, String scripture, String bookname) {
+        this.book = book;
+        this.chapter = chapter;
+        this.verse = verse;
+        this.scripture = scripture;
+        this.bookname = "";
+    }
+
+    public Bible() {
     }
 
     public Long getId() {

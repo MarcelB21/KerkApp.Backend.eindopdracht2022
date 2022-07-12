@@ -5,6 +5,7 @@ import nl.novi.backend.spring.api.kerkapp.Repository.BibleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ public class BibleService {
       return bibleRepository.findById(id);
    }
 
-   public Optional<Bible> getBibleBook(String bookname) {
+   public List<Bible> getBibleBook(String bookname) {
       return bibleRepository.findByBooknameIgnoreCase(bookname);
    }
 
