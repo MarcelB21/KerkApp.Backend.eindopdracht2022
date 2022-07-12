@@ -14,27 +14,27 @@ public class Bible {
     private Long id;
 
     @Column(name = "book")
-    public int Book;
+    public int book;
 
     @Column(name = "bookname")
     @Type(type = "text")
-    public String BookName;
+    public String bookname;
 
     @Column(name = "chapter")
-    private int Chapter;
+    private int chapter;
     
     @Column(name = "verse")
-    private int Verse;
+    private int verse;
     
     @Column(name = "scripture")
     @Type(type = "text")
-    private String Scripture;
+    private String scripture;
 
     public Bible(int book, int chapter, int verse, String scripture) {
-        Book = book;
-        Chapter = chapter;
-        Verse = verse;
-        Scripture = scripture;
+        book = book;
+        chapter = chapter;
+        verse = verse;
+        scripture = scripture;
     }
 
     public Long getId() {
@@ -42,23 +42,23 @@ public class Bible {
     }
 
     public int getBook() {
-        return Book;
+        return book;
     }
 
-    public String getBookName() {
-        return BookName;
+    public String getBookname() {
+        return bookname;
     }
 
     public int getChapter() {
-        return Chapter;
+        return chapter;
     }
 
     public int getVerse() {
-        return Verse;
+        return verse;
     }
 
     public String getScripture() {
-        return Scripture;
+        return scripture;
     }
 
     public void setId(Long id) {
@@ -66,11 +66,11 @@ public class Bible {
     }
 
     public void setBook(int book) {
-        Book = book;
+        book = book;
     }
 
-    public void setBookName(String bookName) {
-        BookName = bookName;
+    public void setBookName(String bookname) {
+        bookname = bookname;
     }
 
 

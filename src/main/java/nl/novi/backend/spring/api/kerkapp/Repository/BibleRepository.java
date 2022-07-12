@@ -9,6 +9,12 @@ import java.util.Optional;
 @Repository
 public interface BibleRepository extends JpaRepository<Bible, Long> {
 
-//    String findByBookNameAndChapterAndVerse();
-//    Optional<String> findByBookNameAndChapterAndVerse(String bookName, int Chapter, int verse);
+    Optional<Bible> findByBooknameIgnoreCase(String bookname);
+
+    Optional<Bible> findByBookAndChapterAndVerse(int book, int chapter, int verse);
+
+    Optional<Bible> findByBooknameIgnoreCaseAndChapter(String bookname, int chapter);
+
+    Optional<Bible> findByBooknameIgnoreCaseAndChapterAndVerse(String bookname, int chapter, int verse);
+
 }
