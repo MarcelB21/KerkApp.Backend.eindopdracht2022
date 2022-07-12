@@ -4,15 +4,22 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "creed", schema = "public")
-public class ApologeticCreed {
+public class Creed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
+    @Column(name = "id")
     private Long id;
 
-    @Column
-    private String text;
+    @Column(name = "line")
+    private String line;
+
+    public Creed(String line) {
+        this.line = line;
+    }
+
+    public Creed() {
+    }
 
     public Long getId() {
         return id;
@@ -22,15 +29,12 @@ public class ApologeticCreed {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getLine() {
+        return line;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setLine(String line) {
+        this.line = line;
     }
 
-    public ApologeticCreed(String text) {
-        this.text = text;
-    }
 }

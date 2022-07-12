@@ -1,23 +1,29 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
-import nl.novi.backend.spring.api.kerkapp.Entitiy.ApologeticCreed;
+import nl.novi.backend.spring.api.kerkapp.Entitiy.Creed;
 import nl.novi.backend.spring.api.kerkapp.Service.CreedService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class CreedController {
 
-    private final CreedService Creedservice;
+    private final CreedService creedservice;
 
     @Autowired
-    public CreedController(CreedService creedservice) {
-        Creedservice = creedservice;
+    public CreedController( CreedService creedservice) {
+        this.creedservice = creedservice;
     }
 
     @GetMapping(value="/creed")
-    public List<ApologeticCreed> getAllCreed() {
-        return getAllCreed();
+    public ResponseEntity<List<Creed>> findByLines(@PathVariable(required = true) String line) {
+        List<Creed> getAllCreed = creedservice.getAllLines(line);
+        return ResponseEntity.ok().body(getAllCreed);
     }
+
 }
