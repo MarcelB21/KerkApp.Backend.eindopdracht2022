@@ -2,11 +2,12 @@ package nl.novi.backend.spring.api.kerkapp.Service;
 
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Bible;
 import nl.novi.backend.spring.api.kerkapp.Repository.BibleRepository;
+import nl.novi.backend.spring.api.kerkapp.dto.BibleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BibleService {
@@ -17,25 +18,35 @@ public class BibleService {
       this.bibleRepository = bibleRepository;
    }
 
-   public Optional<Bible> getScriptureById(Long id) {
-      return bibleRepository.findById(id);
+   public List<BibleDto> getBibleBook(String bookname) {
+      List<Bible> bibles = bibleRepository.findByBooknameIgnoreCase(bookname);
+      List<BibleDto> bibleDtos = new ArrayList<>();
+      for (Bible bible: bibles) {
+         bibleDtos.add(toDto(bible));
+      }
+      return bibleDtos;
    }
 
-   public List<Bible> getBibleBook(String bookname) {
-      return bibleRepository.findByBooknameIgnoreCase(bookname);
-   }
-
-   public List<Bible> getByChapter(String bookname, int chapter) {
-      return bibleRepository.findByBooknameIgnoreCaseAndChapter(bookname, chapter);
-   }
-
-   public Optional<Bible> getVersebybookname(String bookname, int chapter, int verse) {
-      return bibleRepository.findByBooknameIgnoreCaseAndChapterAndVerse(bookname, chapter, verse);
-   }
-
-   public Optional<Bible> getVerse(int book, int chapter, int verse) {
-      return bibleRepository.findByBookAndChapterAndVerse(book, chapter, verse);
+   public List<BibleDto> getByChapter(String bookname, int chapter) {
+      List<Bible> bibles = bibleRepository.findByBooknameIgnoreCaseAndChapter(bookname, chapter);
+      List<BibleDto> bibleDtos = new ArrayList<>();
+      for (Bible bible: bibles) {
+         bibleDtos.add(toDto(bible));
+      }
+      return bibleDtos;
    }
 
 
+   public BibleDto getVersebybookname(String bookname, int chapter, int verse) {
+      BibleDto bibleDto = toDto(bibleRepository.findByBooknameIgnoreCaseAndChapterAndVerse(bookname, chapter, verse));
+      return bibleDto;
+   }
+
+
+   public BibleDto toDto(Bible bible) {
+      BibleDto bibleDto = new BibleDto();
+
+      bibleDto.setVerse(bible.getBookname()+" "+String.valueOf(bible.getChapter())+":"+String.valueOf(bible.getVerse())+" "+bible.getScripture());
+      return bibleDto;
+   }
 }

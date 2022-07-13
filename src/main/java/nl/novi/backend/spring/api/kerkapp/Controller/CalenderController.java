@@ -2,21 +2,19 @@ package nl.novi.backend.spring.api.kerkapp.Controller;
 
 import nl.novi.backend.spring.api.kerkapp.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
+@RestController
 public class CalenderController {
 
     @Autowired
-    private EventRepository eventJpaRepository;
+    private EventRepository eventRepository;
 
-    @RequestMapping(value="/", method=RequestMethod.GET)
+    @GetMapping(value="/")
     public ModelAndView index() {
         return new ModelAndView("index");
     }
@@ -38,7 +36,7 @@ public class CalenderController {
 
     @RequestMapping(value="/eventlist", method=RequestMethod.GET)
     public String events(HttpServletRequest request, Model model) {
-        model.addAttribute("events", eventJpaRepository.findAll());
+        model.addAttribute("events", eventRepository.findAll());
         return "events";
     }
 }

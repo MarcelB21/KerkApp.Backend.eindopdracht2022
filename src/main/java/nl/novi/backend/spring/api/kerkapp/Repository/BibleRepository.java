@@ -12,10 +12,10 @@ public interface BibleRepository extends JpaRepository<Bible, Long> {
 
     List<Bible> findByBooknameIgnoreCase(String bookname);
 
-    Optional<Bible> findByBookAndChapterAndVerse(int book, int chapter, int verse);
+    Bible findByBookAndChapterAndVerse(int book, int chapter, int verse);
 
     List<Bible> findByBooknameIgnoreCaseAndChapter(String bookname, int chapter);
 
-    Optional<Bible> findByBooknameIgnoreCaseAndChapterAndVerse(String bookname, int chapter, int verse);
+    Bible findByBooknameIgnoreCaseAndChapterAndVerse(String bookname, int chapter, int verse);
 
 }
