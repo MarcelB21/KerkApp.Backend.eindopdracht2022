@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface CreedRespository extends JpaRepository<Creed, Long> {
 
-    List<Creed> findByLine(String line);
 }

@@ -15,8 +15,8 @@ public class CreedService {
         this.creedRespository = creedRespository;
     }
 
-    public List<Creed> getAllLines(String line) {
-        return creedRespository.findByLine(line);
+    public List<Creed> getAllCreed() {
+        return creedRespository.findAll();
     }
 
 }

@@ -21,8 +21,8 @@ public class CreedController {
     }
 
     @GetMapping(value="/creed")
-    public ResponseEntity<List<Creed>> findByLines(@PathVariable(required = true) String line) {
-        List<Creed> getAllCreed = creedservice.getAllLines(line);
+    public ResponseEntity<List<Creed>> getAllCreed() {
+        List<Creed> getAllCreed = creedservice.getAllCreed();
         return ResponseEntity.ok().body(getAllCreed);
     }
 
