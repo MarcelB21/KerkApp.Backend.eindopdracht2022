@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class EventDto {
 
+    private Long id;
+
     private String title;
 
     private String description;
@@ -42,5 +44,13 @@ public class EventDto {
 
     public void setFinish(LocalDate finish) {
         this.finish = finish;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

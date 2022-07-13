@@ -1,11 +1,16 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
+import nl.novi.backend.spring.api.kerkapp.Entitiy.Bible;
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Event;
 import nl.novi.backend.spring.api.kerkapp.Service.EventService;
+import nl.novi.backend.spring.api.kerkapp.dto.BibleDto;
 import nl.novi.backend.spring.api.kerkapp.dto.EventDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,8 +24,8 @@ public class EventController {
     }
 
     @GetMapping (value="/allevents")
-    public List<Event> getAllEvents() {
-        return getAllEvents();
+    public List<EventDto> getAllEvents() {
+        return eventService.getAllEvents();
     }
 
     @PostMapping (value="/event")
@@ -29,18 +34,20 @@ public class EventController {
         return eventDto;
     }
 
-    @PatchMapping(value="/event")
-    public Event updateEvent() {
-        return updateEvent();
+    @PutMapping(value="/event")
+    public EventDto updateEvent(@RequestBody EventDto eventDto, @RequestParam(value = "id", required = true)Long Id ) {
+        return eventService.updateEvent(eventDto, Id);
     }
 
-    @DeleteMapping(value="/event")
-    public void removeEvent() {
+    @DeleteMapping(value="/event/delete")
+    public String removeEvent(@RequestParam(value = "id", required = true)Long Id ) {
+        eventService.removeEvent(Id);
+        return "event "+ Id + " is verwijderd!";
     }
 
-//    @GetMapping(value="/events")
-//    public List<EventDto> getEventsInRange(@RequestParam(value = "start", required = true) String start,
-//                                           @RequestParam(value = "end", required = true) String end) {
-//        return eventService.getEventsInRange(start, end);
-//    }
+    @GetMapping(value="/events")
+    public List<EventDto> getEventsInRange(@RequestParam(value = "start", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate start,
+                                           @RequestParam(value = "finish", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate finish) {
+        return eventService.getEventsInRange(start, finish);
+    }
 }
