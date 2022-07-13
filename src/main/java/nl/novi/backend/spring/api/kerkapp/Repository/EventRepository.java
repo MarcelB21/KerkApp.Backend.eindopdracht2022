@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface EventJpaRepository extends JpaRepository<Events, Long> {
+public interface EventRepository extends JpaRepository<Events, Long> {
 
     public List<Events> findByStartGreaterThanEqualAndFinishLessThanEqual(LocalDateTime start, LocalDateTime end);
 

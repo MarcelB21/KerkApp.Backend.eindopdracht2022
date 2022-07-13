@@ -1,7 +1,7 @@
 package nl.novi.backend.spring.api.kerkapp.Service;
 
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Creed;
-import nl.novi.backend.spring.api.kerkapp.Repository.CreedRespository;
+import nl.novi.backend.spring.api.kerkapp.Repository.CreedRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 @Service
 public class CreedService {
 
-    private final CreedRespository creedRespository;
+    private final CreedRepository creedRepository;
 
-    public CreedService(CreedRespository creedRespository) {
-        this.creedRespository = creedRespository;
+    public CreedService(CreedRepository creedRepository) {
+        this.creedRepository = creedRepository;
     }
 
     public List<Creed> getAllCreed() {
-        return creedRespository.findAll();
+        return creedRepository.findAll();
     }
 
 }
