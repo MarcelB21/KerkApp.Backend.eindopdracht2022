@@ -21,6 +21,12 @@ public class CatechismController {
         this.catechismService = catechismService;
     }
 
+    @GetMapping("/Catechism")
+    public ResponseEntity<List<Catechism>> getCatechism() {
+        List<Catechism> catechismList = catechismService.getAllCatechism();
+        return ResponseEntity.ok().body(catechismList);
+    }
+
     @GetMapping("/Catechisms")
     public ResponseEntity<List<Catechism>> getByZondagCatechism(@RequestParam (value = "zondag", required = false) int zondag) {
         List<Catechism> catechisms = catechismService.getByZondagCatechism(zondag);

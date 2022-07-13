@@ -1,6 +1,5 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
-import nl.novi.backend.spring.api.kerkapp.Entitiy.Bible;
 import nl.novi.backend.spring.api.kerkapp.Service.BibleService;
 import nl.novi.backend.spring.api.kerkapp.dto.BibleDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class BibleController {
