@@ -8,13 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@RestControllerAdvice
 public class CalenderController {
 
     @Autowired
     private EventRepository eventRepository;
 
-    @GetMapping(value="/calendar/index")
+    @GetMapping(value="/index")
     public ModelAndView index() {
         return new ModelAndView("index");
     }
