@@ -1,7 +1,5 @@
 package nl.novi.backend.spring.api.kerkapp.Entitiy;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity

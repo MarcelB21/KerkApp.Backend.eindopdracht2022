@@ -1,16 +1,12 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
-import nl.novi.backend.spring.api.kerkapp.Entitiy.Bible;
-import nl.novi.backend.spring.api.kerkapp.Entitiy.Event;
 import nl.novi.backend.spring.api.kerkapp.Service.EventService;
-import nl.novi.backend.spring.api.kerkapp.dto.BibleDto;
 import nl.novi.backend.spring.api.kerkapp.dto.EventDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
