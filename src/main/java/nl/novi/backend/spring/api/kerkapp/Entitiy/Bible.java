@@ -26,6 +26,10 @@ public class Bible {
     @Column(name = "scripture", length = 2048)
     private String scripture;
 
+    @ManyToOne
+    @JoinColumn(name = "file_ID")
+    FileUploadResponse file;
+
     public Bible(int book, int chapter, int verse, String scripture, String bookname) {
         this.book = book;
         this.chapter = chapter;
@@ -73,5 +77,11 @@ public class Bible {
         bookname = bookname;
     }
 
+    public void setFile(FileUploadResponse file) {
+        this.file = file;
+    }
 
+    public FileUploadResponse getFile() {
+        return file;
+    }
 }
