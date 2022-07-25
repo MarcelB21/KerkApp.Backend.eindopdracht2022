@@ -33,7 +33,7 @@ public class UserController {
     @GetMapping(value = "/{username}")
     public ResponseEntity<UserDto> getUser(@PathVariable("username") String username) {
 
-        UserDto optionalUser = userService.getUser(username);
+        UserDto optionalUser = userService.getUserDto(username);
 
 
         return ResponseEntity.ok().body(optionalUser);

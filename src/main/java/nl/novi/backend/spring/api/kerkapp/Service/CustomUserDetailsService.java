@@ -1,7 +1,7 @@
 package nl.novi.backend.spring.api.kerkapp.Service;
 
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Authority;
-import nl.novi.backend.spring.api.kerkapp.dto.UserDto;
+import nl.novi.backend.spring.api.kerkapp.Entitiy.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,12 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserDto userDto = userService.getUser(username);
+        User user = userService.getUser(username);
 
+        String password = user.getPassword();
 
-        String password = userDto.getPassword();
-
-        Set<Authority> authorities = userDto.getAuthorities();
+        Set<Authority> authorities = user.getAuthorities();
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         for (Authority authority: authorities) {
             grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));

@@ -23,9 +23,6 @@ public class User {
     private boolean enabled = true;
 
     @Column
-    private String apikey;
-
-    @Column
     private String email;
 
     @OneToMany(
@@ -48,8 +45,6 @@ public class User {
     }
     public boolean isEnabled() { return enabled;}
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
-    public String getApikey() { return apikey; }
-    public void setApikey(String apikey) { this.apikey = apikey; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email;}
 

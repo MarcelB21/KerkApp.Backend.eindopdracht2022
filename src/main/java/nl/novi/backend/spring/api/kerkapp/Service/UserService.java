@@ -6,7 +6,6 @@ import nl.novi.backend.spring.api.kerkapp.Exception.RecordNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Exception.UsernameNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Repository.UserRepository;
 import nl.novi.backend.spring.api.kerkapp.dto.UserDto;
-import nl.novi.backend.spring.api.kerkapp.utils.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
         List<User> list = userRepository.findAll();
@@ -30,9 +30,9 @@ public class UserService {
         return collection;
     }
 
-    public UserDto getUser(String username) {
+    public UserDto getUserDto(String username) {
         UserDto dto = new UserDto();
-        Optional<User> user = userRepository.findById(username);
+        Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()){
             dto = fromUser(user.get());
         }else {
@@ -41,47 +41,53 @@ public class UserService {
         return dto;
     }
 
+    public User getUser(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        } else {
+            throw new UsernameNotFoundException(username);
+        }
+    }
 
     public boolean userExists(String username) {
-        return userRepository.existsById(username);
+        return userRepository.existsByUsername(username);
     }
 
     public String createUser(UserDto userDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setApikey(randomString);
         User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
 
     public void deleteUser(String username) {
-        userRepository.deleteById(username);
+        userRepository.deleteByUsername(username);
     }
 
     public void updateUser(String username, UserDto newUser) throws RecordNotFoundException {
-        if (!userRepository.existsById(username)) throw new RecordNotFoundException();
-        User user = userRepository.findById(username).get();
+        if (!userRepository.existsByUsername(username)) throw new RecordNotFoundException();
+        User user = userRepository.findByUsername(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
 
     public Set<Authority> getAuthorities(String username) {
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
+        User user = userRepository.findByUsername(username).get();
         UserDto userDto = fromUser(user);
         return userDto.getAuthorities();
     }
 
     public void addAuthority(String username, String authority) {
 
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
+        User user = userRepository.findByUsername(username).get();
         user.addAuthority(new Authority(username, authority));
         userRepository.save(user);
     }
 
     public void removeAuthority(String username, String authority) {
-        if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findById(username).get();
+        if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
+        User user = userRepository.findByUsername(username).get();
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
@@ -94,7 +100,6 @@ public class UserService {
         dto.username = user.getUsername();
         dto.password = user.getPassword();
         dto.enabled = user.isEnabled();
-        dto.apikey = user.getApikey();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
 
@@ -108,7 +113,6 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
         user.setEnabled(userDto.getEnabled());
-        user.setApikey(userDto.getApikey());
         user.setEmail(userDto.getEmail());
 
         return user;
