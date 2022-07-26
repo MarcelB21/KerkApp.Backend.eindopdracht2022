@@ -7,6 +7,7 @@ import nl.novi.backend.spring.api.kerkapp.Exception.UsernameNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Repository.UserRepository;
 import nl.novi.backend.spring.api.kerkapp.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class UserService {
 
     public UserDto getUserDto(String username) {
         UserDto dto = new UserDto();
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findById(username);
         if (user.isPresent()){
             dto = fromUser(user.get());
         }else {
@@ -42,7 +43,7 @@ public class UserService {
     }
 
     public User getUser(String username) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
+        Optional<User> userOptional = userRepository.findById(username);
         if (userOptional.isPresent()) {
             return userOptional.get();
         } else {
@@ -55,6 +56,7 @@ public class UserService {
     }
 
     public String createUser(UserDto userDto) {
+        userDto.password = BCrypt.hashpw(userDto.password, BCrypt.gensalt());
         User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
@@ -65,14 +67,14 @@ public class UserService {
 
     public void updateUser(String username, UserDto newUser) throws RecordNotFoundException {
         if (!userRepository.existsByUsername(username)) throw new RecordNotFoundException();
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findById(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
 
     public Set<Authority> getAuthorities(String username) {
         if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findById(username).get();
         UserDto userDto = fromUser(user);
         return userDto.getAuthorities();
     }
@@ -80,14 +82,14 @@ public class UserService {
     public void addAuthority(String username, String authority) {
 
         if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findById(username).get();
         user.addAuthority(new Authority(username, authority));
         userRepository.save(user);
     }
 
     public void removeAuthority(String username, String authority) {
         if (!userRepository.existsByUsername(username)) throw new UsernameNotFoundException(username);
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findById(username).get();
         Authority authorityToRemove = user.getAuthorities().stream().filter((a) -> a.getAuthority().equalsIgnoreCase(authority)).findAny().get();
         user.removeAuthority(authorityToRemove);
         userRepository.save(user);
