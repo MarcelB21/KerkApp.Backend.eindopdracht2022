@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.valueOf;
+
 @Service
 public class BibleService {
    private final BibleRepository bibleRepository;
@@ -25,7 +27,7 @@ public class BibleService {
       this.uploadRepository = uploadRepository;
    }
 
-   public List<BibleDto> getBibleBook(String bookname) {
+   public List<BibleDto> getVersesByBookname(String bookname) {
       List<Bible> bibles = bibleRepository.findByBooknameIgnoreCase(bookname);
       List<BibleDto> bibleDtos = new ArrayList<>();
       for (Bible bible: bibles) {
@@ -34,7 +36,7 @@ public class BibleService {
       return bibleDtos;
    }
 
-   public List<BibleDto> getByChapter(String bookname, int chapter) {
+   public List<BibleDto> getVerseByBooknameChapter(String bookname, int chapter) {
       List<Bible> bibles = bibleRepository.findByBooknameIgnoreCaseAndChapter(bookname, chapter);
       List<BibleDto> bibleDtos = new ArrayList<>();
       for (Bible bible: bibles) {
@@ -44,7 +46,7 @@ public class BibleService {
    }
 
 
-   public BibleDto getVersebybookname(String bookname, int chapter, int verse) throws RecordNotFoundException {
+   public BibleDto getVerseByBooknameChapterVerse(String bookname, int chapter, int verse) throws RecordNotFoundException {
       Optional<Bible> optionalBible= bibleRepository.findByBooknameIgnoreCaseAndChapterAndVerse(bookname, chapter, verse);
       BibleDto bibleDto;
       if(optionalBible.isPresent()) {
@@ -55,11 +57,22 @@ public class BibleService {
       }
    }
 
+   public String getByVerseBetweenVerse(String bookname, int chapter, int startverse, int endverse) {
+      List<Bible> bibles = bibleRepository.findByBooknameIgnoreCaseAndChapter(bookname, chapter);
+      StringBuilder stringBuilder = new StringBuilder(bookname.substring(0, 1).toUpperCase() + bookname.substring(1) + " " + chapter + "\n" + " ");
+      for (Bible bible: bibles) {
+         if(bible.getVerse()>=startverse && bible.getVerse()<=endverse) {
+            stringBuilder.append(valueOf(bible.getVerse()) + " " + bible.getScripture());
+         }
+      }
+      return stringBuilder.toString();
+   }
+
 
    public BibleDto toDto(Bible bible) {
       BibleDto bibleDto = new BibleDto();
 
-      bibleDto.setVerse(bible.getBookname()+" "+String.valueOf(bible.getChapter())+":"+String.valueOf(bible.getVerse())+" "+bible.getScripture());
+      bibleDto.setVerse(bible.getBookname()+" "+ valueOf(bible.getChapter())+":"+ valueOf(bible.getVerse())+" "+bible.getScripture());
       return bibleDto;
    }
 

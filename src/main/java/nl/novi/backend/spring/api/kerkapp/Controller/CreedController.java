@@ -1,13 +1,10 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
-import nl.novi.backend.spring.api.kerkapp.Entitiy.Creed;
 import nl.novi.backend.spring.api.kerkapp.Service.CreedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class CreedController {
@@ -20,8 +17,8 @@ public class CreedController {
     }
 
     @GetMapping(value="/creed")
-    public ResponseEntity<List<Creed>> getAllCreed() {
-        List<Creed> getAllCreed = creedservice.getAllCreed();
+    public ResponseEntity<String> getAllCreed() {
+        String getAllCreed = creedservice.getAllCreed();
         return ResponseEntity.ok().body(getAllCreed);
     }
 

@@ -15,8 +15,13 @@ public class CreedService {
         this.creedRepository = creedRepository;
     }
 
-    public List<Creed> getAllCreed() {
-        return creedRepository.findAll();
+    public String getAllCreed() {
+       List<Creed> creedList = creedRepository.findAll();
+       StringBuilder stringBuilder = new StringBuilder();
+       for (Creed creed: creedList) {
+           stringBuilder.append(creed.getLine() + "\n");
+       }
+       return stringBuilder.toString();
     }
 
 }

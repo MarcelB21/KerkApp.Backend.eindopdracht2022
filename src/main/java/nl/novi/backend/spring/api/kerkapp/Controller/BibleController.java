@@ -24,19 +24,19 @@ public class BibleController {
 
     @GetMapping("/Bible/{bookname}")
     public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) {
-        List<BibleDto> foundBooks = bibleService.getBibleBook(bookname);
+        List<BibleDto> foundBooks = bibleService.getVersesByBookname(bookname);
         return ResponseEntity.ok().body(foundBooks);
     }
 
     @GetMapping("/Bible/{bookname}/{chapter}")
     public ResponseEntity<List<BibleDto>> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
-        List<BibleDto> foundChapter = bibleService.getByChapter(bookname, chapter);
+        List<BibleDto> foundChapter = bibleService.getVerseByBooknameChapter(bookname, chapter);
         return ResponseEntity.ok().body(foundChapter);
     }
 
     @GetMapping("/Bible/{bookname}/{chapter}/{verse}")
     public ResponseEntity<BibleDto> getVersebybookname(@PathVariable(value = "bookname") String bookname, @PathVariable int chapter, @PathVariable int verse) throws RecordNotFoundException {
-        BibleDto TGfoundVerse = bibleService.getVersebybookname(bookname, chapter, verse);
+        BibleDto TGfoundVerse = bibleService.getVerseByBooknameChapterVerse(bookname, chapter, verse);
         return ResponseEntity.ok().body(TGfoundVerse);
     }
 
@@ -47,4 +47,9 @@ public class BibleController {
         bibleService.assignPhotoToBibleVerse(bookname, chapter, verse, file);
     }
 
+    @GetMapping("/Bible")
+    public ResponseEntity<String> getByVerseBetweenVerse(@RequestParam (value = "bookname", required = false) String bookname, @RequestParam (value = "chapter", required = false) int chapter, @RequestParam (value = "start", required = false) int start, @RequestParam (value = "end", required = false) int end) {
+        String foundVerses = bibleService.getByVerseBetweenVerse(bookname, chapter, start, end);
+        return ResponseEntity.ok().body(foundVerses);
+    }
 }
