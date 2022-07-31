@@ -1,5 +1,6 @@
 package nl.novi.backend.spring.api.kerkapp.Controller;
 
+import nl.novi.backend.spring.api.kerkapp.Entitiy.Bible;
 import nl.novi.backend.spring.api.kerkapp.Entitiy.FileUploadResponse;
 import nl.novi.backend.spring.api.kerkapp.Exception.RecordNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Service.BibleService;
@@ -29,8 +30,8 @@ public class BibleController {
     }
 
     @GetMapping("/Bible/{bookname}/{chapter}")
-    public ResponseEntity<List<BibleDto>> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
-        List<BibleDto> foundChapter = bibleService.getVerseByBooknameChapter(bookname, chapter);
+    public ResponseEntity<BibleDto> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
+        BibleDto foundChapter = bibleService.getVerseByBooknameChapter(bookname, chapter);
         return ResponseEntity.ok().body(foundChapter);
     }
 
@@ -48,8 +49,14 @@ public class BibleController {
     }
 
     @GetMapping("/Bible")
-    public ResponseEntity<String> getByVerseBetweenVerse(@RequestParam (value = "bookname", required = false) String bookname, @RequestParam (value = "chapter", required = false) int chapter, @RequestParam (value = "start", required = false) int start, @RequestParam (value = "end", required = false) int end) {
-        String foundVerses = bibleService.getByVerseBetweenVerse(bookname, chapter, start, end);
-        return ResponseEntity.ok().body(foundVerses);
+    public ResponseEntity<BibleDto> getByVerseBetweenVerse(@RequestParam (value = "bookname", required = false) String bookname, @RequestParam (value = "chapter", required = false) int chapter, @RequestParam (value = "start", required = false) int start, @RequestParam (value = "end", required = false) int end) {
+        BibleDto bibleDto = bibleService.getByVerseBetweenVerse(bookname, chapter, start, end);
+        return ResponseEntity.ok().body(bibleDto);
+    }
+
+    @GetMapping("/Bible/test/{keyword}")
+    public ResponseEntity<List<Bible>> getByKeyword(@PathVariable String keyword) {
+        List<Bible> foundBooks = bibleService.getVersesByKeyword(keyword);
+        return ResponseEntity.ok().body(foundBooks);
     }
 }

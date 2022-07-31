@@ -19,6 +19,8 @@ public interface BibleRepository extends JpaRepository<Bible, Long> {
 
 //    Bible findByBooknameIgnoreCaseAndChapterAndVerse(String bookname, int chapter, int verse);
 
+    List<Bible> findByScriptureContainingIgnoreCase(String keyword);
+
     Optional<Bible> findByBooknameIgnoreCaseAndChapterAndVerse(@Param("bookname")String bookname, @Param("chapter")int chapter, @Param("verse")int verse);
 
 }
