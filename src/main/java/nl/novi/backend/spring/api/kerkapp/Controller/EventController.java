@@ -4,6 +4,7 @@ import nl.novi.backend.spring.api.kerkapp.Service.EventService;
 import nl.novi.backend.spring.api.kerkapp.dto.EventDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,29 +22,32 @@ public class EventController {
 
     @GetMapping (value="/allevents")
     public List<EventDto> getAllEvents() {
-        return eventService.getAllEvents();
+        eventService.getAllEvents();
+        return (List<EventDto>) ResponseEntity.ok();
     }
 
     @PostMapping (value="/event")
     public EventDto addEvent(@RequestBody EventDto eventDto) {
         eventService.addEvent(eventDto);
-        return eventDto;
+        return ResponseEntity.ok(eventDto).getBody();
     }
 
     @PutMapping(value="/event")
-    public EventDto updateEvent(@RequestBody EventDto eventDto, @RequestParam(value = "id", required = true)Long Id ) {
-        return eventService.updateEvent(eventDto, Id);
+    public ResponseEntity<Object> updateEvent(@RequestBody EventDto eventDto, @RequestParam(value = "id", required = true)Long Id ) {
+        eventService.updateEvent(eventDto, Id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(value="/event/delete")
     public String removeEvent(@RequestParam(value = "id", required = true)Long Id ) {
         eventService.removeEvent(Id);
-        return "event "+ Id + " is verwijderd!";
+        String value = "event "+ Id + " is verwijderd!";
+        return ResponseEntity.noContent().build().toString();
     }
 
     @GetMapping(value="/events")
     public List<EventDto> getEventsInRange(@RequestParam(value = "start", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate start,
                                            @RequestParam(value = "finish", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate finish) {
-        return eventService.getEventsInRange(start, finish);
+        return ResponseEntity.ok(eventService.getEventsInRange(start, finish)).getBody();
     }
 }
