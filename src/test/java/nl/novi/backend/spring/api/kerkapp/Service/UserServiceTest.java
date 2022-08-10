@@ -2,18 +2,19 @@ package nl.novi.backend.spring.api.kerkapp.Service;
 
 import nl.novi.backend.spring.api.kerkapp.Entitiy.Authority;
 import nl.novi.backend.spring.api.kerkapp.Entitiy.User;
-import nl.novi.backend.spring.api.kerkapp.Exception.RecordNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Exception.UsernameNotFoundException;
 import nl.novi.backend.spring.api.kerkapp.Repository.UserRepository;
 import nl.novi.backend.spring.api.kerkapp.dto.UserDto;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -176,227 +177,6 @@ class UserServiceTest {
 
         // Verify the results
         verify(mockUserRepository).deleteByUsername("username");
-    }
-
-    @Test
-    @Disabled
-    void testUpdateUser() throws RecordNotFoundException {
-        // Setup
-        final UserDto newUser = new UserDto();
-        newUser.setId(0L);
-        newUser.setUsername("username");
-        newUser.setPassword("password");
-        newUser.setEnabled(false);
-        newUser.setEmail("email");
-        newUser.setAuthorities(Set.of(new Authority("username", "authority")));
-
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-
-        // Configure UserRepository.findById(...).
-        final User user1 = new User();
-        user1.setUsername("username");
-        user1.setPassword("password");
-        user1.setEnabled(false);
-        user1.setEmail("email");
-        user1.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        final Optional<User> user = Optional.of(user1);
-        when(mockUserRepository.findById("username")).thenReturn(user);
-
-        // Configure UserRepository.save(...).
-        final User user2 = new User();
-        user2.setUsername("username");
-        user2.setPassword("password");
-        user2.setEnabled(false);
-        user2.setEmail("email");
-        user2.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        when(mockUserRepository.save(any(User.class))).thenReturn(user2);
-
-        // Run the test
-        userServiceUnderTest.updateUser("username", newUser);
-
-        // Verify the results
-        verify(mockUserRepository).save(any(User.class));
-    }
-
-    @Test
-    @Disabled
-    void testUpdateUser_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        final UserDto newUser = new UserDto();
-        newUser.setId(0L);
-        newUser.setUsername("username");
-        newUser.setPassword("password");
-        newUser.setEnabled(false);
-        newUser.setEmail("email");
-        newUser.setAuthorities(Set.of(new Authority("username", "authority")));
-
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-        when(mockUserRepository.findById("username")).thenReturn(Optional.empty());
-
-        // Run the test
-        assertThatThrownBy(() -> userServiceUnderTest.updateUser("username", newUser))
-                .isInstanceOf(NoSuchElementException.class);
-    }
-
-    @Test
-    @Disabled
-    void testUpdateUser_ThrowsRecordNotFoundException() {
-        // Setup
-        final UserDto newUser = new UserDto();
-        newUser.setId(0L);
-        newUser.setUsername("username");
-        newUser.setPassword("password");
-        newUser.setEnabled(false);
-        newUser.setEmail("email");
-        newUser.setAuthorities(Set.of(new Authority("username", "authority")));
-
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-
-        // Configure UserRepository.findById(...).
-        final User user1 = new User();
-        user1.setUsername("username");
-        user1.setPassword("password");
-        user1.setEnabled(false);
-        user1.setEmail("email");
-        user1.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        final Optional<User> user = Optional.of(user1);
-        when(mockUserRepository.findById("username")).thenReturn(user);
-
-        // Configure UserRepository.save(...).
-        final User user2 = new User();
-        user2.setUsername("username");
-        user2.setPassword("password");
-        user2.setEnabled(false);
-        user2.setEmail("email");
-        user2.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        when(mockUserRepository.save(any(User.class))).thenReturn(user2);
-
-        // Run the test
-        assertThatThrownBy(() -> userServiceUnderTest.updateUser("username", newUser))
-                .isInstanceOf(RecordNotFoundException.class);
-        verify(mockUserRepository).save(any(User.class));
-    }
-
-    @Test
-    @Disabled
-    void testGetAuthorities() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-
-        // Configure UserRepository.findById(...).
-        final User user1 = new User();
-        user1.setUsername("username");
-        user1.setPassword("password");
-        user1.setEnabled(false);
-        user1.setEmail("email");
-        user1.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        final Optional<User> user = Optional.of(user1);
-        when(mockUserRepository.findById("username")).thenReturn(user);
-
-        // Run the test
-        final Set<Authority> result = userServiceUnderTest.getAuthorities("username");
-
-        // Verify the results
-    }
-
-    @Test
-    @Disabled
-    void testGetAuthorities_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-        when(mockUserRepository.findById("username")).thenReturn(Optional.empty());
-
-        // Run the test
-        assertThatThrownBy(() -> userServiceUnderTest.getAuthorities("username"))
-                .isInstanceOf(NoSuchElementException.class);
-    }
-
-    @Test
-    @Disabled
-    void testAddAuthority() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-
-        // Configure UserRepository.findById(...).
-        final User user1 = new User();
-        user1.setUsername("username");
-        user1.setPassword("password");
-        user1.setEnabled(false);
-        user1.setEmail("email");
-        user1.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        final Optional<User> user = Optional.of(user1);
-        when(mockUserRepository.findById("username")).thenReturn(user);
-
-        // Configure UserRepository.save(...).
-        final User user2 = new User();
-        user2.setUsername("username");
-        user2.setPassword("password");
-        user2.setEnabled(false);
-        user2.setEmail("email");
-        user2.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        when(mockUserRepository.save(any(User.class))).thenReturn(user2);
-
-        // Run the test
-        userServiceUnderTest.addAuthority("username", "authority");
-
-        // Verify the results
-        verify(mockUserRepository).save(any(User.class));
-    }
-
-    @Test
-    @Disabled
-    void testAddAuthority_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-        when(mockUserRepository.findById("username")).thenReturn(Optional.empty());
-
-        // Run the test
-        assertThatThrownBy(() -> userServiceUnderTest.addAuthority("username", "authority"))
-                .isInstanceOf(NoSuchElementException.class);
-    }
-
-    @Test
-    @Disabled
-    void testRemoveAuthority() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-
-        // Configure UserRepository.findById(...).
-        final User user1 = new User();
-        user1.setUsername("username");
-        user1.setPassword("password");
-        user1.setEnabled(false);
-        user1.setEmail("email");
-        user1.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        final Optional<User> user = Optional.of(user1);
-        when(mockUserRepository.findById("username")).thenReturn(user);
-
-        // Configure UserRepository.save(...).
-        final User user2 = new User();
-        user2.setUsername("username");
-        user2.setPassword("password");
-        user2.setEnabled(false);
-        user2.setEmail("email");
-        user2.getAuthorities().addAll(Set.of(new Authority("username", "authority")));
-        when(mockUserRepository.save(any(User.class))).thenReturn(user2);
-
-        // Run the test
-        userServiceUnderTest.removeAuthority("username", "authority");
-
-        // Verify the results
-        verify(mockUserRepository).save(any(User.class));
-    }
-
-    @Test
-    @Disabled
-    void testRemoveAuthority_UserRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        when(mockUserRepository.existsByUsername("username")).thenReturn(false);
-        when(mockUserRepository.findById("username")).thenReturn(Optional.empty());
-
-        // Run the test
-        assertThatThrownBy(() -> userServiceUnderTest.removeAuthority("username", "authority"))
-                .isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
