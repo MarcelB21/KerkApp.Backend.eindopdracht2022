@@ -28,19 +28,6 @@ class CatechismServiceTest {
     }
 
     @Test
-    void testGetAllCatechism() {
-        // Setup
-        // Configure CatechismRepository.findAll(...).
-        final List<Catechism> catechisms = List.of(new Catechism(0, 0, "vraag", "antwoord"));
-        when(mockCatechismRepository.findAll()).thenReturn(catechisms);
-
-        // Run the test
-        final List<Catechism> result = catechismServiceUnderTest.getAllCatechism();
-
-        // Verify the results
-    }
-
-    @Test
     void testGetAllCatechism_CatechismRepositoryReturnsNoItems() {
         // Setup
         when(mockCatechismRepository.findAll()).thenReturn(Collections.emptyList());
@@ -50,19 +37,6 @@ class CatechismServiceTest {
 
         // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
-    }
-
-    @Test
-    void testGetByZondagCatechism() {
-        // Setup
-        // Configure CatechismRepository.findByZondag(...).
-        final List<Catechism> catechisms = List.of(new Catechism(0, 0, "vraag", "antwoord"));
-        when(mockCatechismRepository.findByZondag(0)).thenReturn(catechisms);
-
-        // Run the test
-        final List<Catechism> result = catechismServiceUnderTest.getByZondagCatechism(0);
-
-        // Verify the results
     }
 
     @Test
@@ -78,19 +52,6 @@ class CatechismServiceTest {
     }
 
     @Test
-    void testGetByDeelCatechism() {
-        // Setup
-        // Configure CatechismRepository.findByDeel(...).
-        final List<Catechism> catechisms = List.of(new Catechism(0, 0, "vraag", "antwoord"));
-        when(mockCatechismRepository.findByDeel(0)).thenReturn(catechisms);
-
-        // Run the test
-        final List<Catechism> result = catechismServiceUnderTest.getByDeelCatechism(0);
-
-        // Verify the results
-    }
-
-    @Test
     void testGetByDeelCatechism_CatechismRepositoryReturnsNoItems() {
         // Setup
         when(mockCatechismRepository.findByDeel(0)).thenReturn(Collections.emptyList());
@@ -100,19 +61,6 @@ class CatechismServiceTest {
 
         // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
-    }
-
-    @Test
-    void testFindByDeelAndZondag() {
-        // Setup
-        // Configure CatechismRepository.findByDeelAndZondag(...).
-        final List<Catechism> catechisms = List.of(new Catechism(0, 0, "vraag", "antwoord"));
-        when(mockCatechismRepository.findByDeelAndZondag(0, 0)).thenReturn(catechisms);
-
-        // Run the test
-        final List<Catechism> result = catechismServiceUnderTest.findByDeelAndZondag(0, 0);
-
-        // Verify the results
     }
 
     @Test

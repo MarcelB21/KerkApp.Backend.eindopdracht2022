@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,19 +32,6 @@ class EventServiceTest {
         eventServiceUnderTest = new EventService(mockEventRepository);
     }
 
-    @Test
-    void testGetAllEvents() {
-        // Setup
-        // Configure EventRepository.findAll(...).
-        final List<Event> events = List.of(
-                new Event(0L, "title", "description", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 1)));
-        when(mockEventRepository.findAll()).thenReturn(events);
-
-        // Run the test
-        final List<EventDto> result = eventServiceUnderTest.getAllEvents();
-
-        // Verify the results
-    }
 
     @Test
     void testGetAllEvents_EventRepositoryReturnsNoItems() {
@@ -106,21 +92,6 @@ class EventServiceTest {
         verify(mockEventRepository).save(any(Event.class));
     }
 
-    @Test
-    void testUpdateEvent_EventRepositoryFindByIdReturnsAbsent() {
-        // Setup
-        final EventDto eventDto = new EventDto();
-        eventDto.setTitle("title");
-        eventDto.setDescription("description");
-        eventDto.setStart(LocalDate.of(2020, 1, 1));
-        eventDto.setFinish(LocalDate.of(2020, 1, 1));
-        eventDto.setId(0L);
-
-        when(mockEventRepository.findById(0L)).thenReturn(Optional.empty());
-
-        // Run the test
-        assertThatThrownBy(() -> eventServiceUnderTest.updateEvent(eventDto, 0L)).isInstanceOf(RuntimeException.class);
-    }
 
     @Test
     void testRemoveEvent() {
@@ -132,21 +103,6 @@ class EventServiceTest {
         verify(mockEventRepository).deleteById(0L);
     }
 
-    @Test
-    void testGetEventsInRange() {
-        // Setup
-        // Configure EventRepository.findByStartGreaterThanEqualAndFinishLessThanEqual(...).
-        final List<Event> events = List.of(
-                new Event(0L, "title", "description", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 1)));
-        when(mockEventRepository.findByStartGreaterThanEqualAndFinishLessThanEqual(LocalDate.of(2020, 1, 1),
-                LocalDate.of(2020, 1, 1))).thenReturn(events);
-
-        // Run the test
-        final List<EventDto> result = eventServiceUnderTest.getEventsInRange(LocalDate.of(2020, 1, 1),
-                LocalDate.of(2020, 1, 1));
-
-        // Verify the results
-    }
 
     @Test
     void testGetEventsInRange_EventRepositoryReturnsNoItems() {
@@ -160,32 +116,5 @@ class EventServiceTest {
 
         // Verify the results
         assertThat(result).isEqualTo(Collections.emptyList());
-    }
-
-    @Test
-    void testFromDto() {
-        // Setup
-        final EventDto eventDto = new EventDto();
-        eventDto.setTitle("title");
-        eventDto.setDescription("description");
-        eventDto.setStart(LocalDate.of(2020, 1, 1));
-        eventDto.setFinish(LocalDate.of(2020, 1, 1));
-        eventDto.setId(0L);
-
-        // Run the test
-        final Event result = eventServiceUnderTest.fromDto(eventDto);
-
-        // Verify the results
-    }
-
-    @Test
-    void testToDto() {
-        // Setup
-        final Event event = new Event(0L, "title", "description", LocalDate.of(2020, 1, 1), LocalDate.of(2020, 1, 1));
-
-        // Run the test
-        final EventDto result = eventServiceUnderTest.toDto(event);
-
-        // Verify the results
     }
 }
