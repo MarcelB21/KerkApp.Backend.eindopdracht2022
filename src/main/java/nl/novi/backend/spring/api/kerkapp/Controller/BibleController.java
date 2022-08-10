@@ -24,7 +24,7 @@ public class BibleController {
     }
 
     @GetMapping("/Bible/{bookname}")
-    public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) {
+    public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) throws RecordNotFoundException {
         List<BibleDto> foundBooks = bibleService.getVersesByBookname(bookname);
         return ResponseEntity.ok().body(foundBooks);
     }
