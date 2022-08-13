@@ -54,19 +54,34 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //JWT token authentication
         http
-                .httpBasic()
-                .and()
-                .csrf().disable()
+                .httpBasic().and().csrf().disable().formLogin().disable()
+                .cors().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,"/users/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                .antMatchers( "/users").permitAll()
+                .antMatchers("/users").hasRole("ADMIN")
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers( "/users/**").hasRole("ADMIN")
 
-                .antMatchers(HttpMethod.POST, "/event").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/event").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/event/delete").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/Bible/{bookname}/{chapter}/{verse}/photo").hasAnyAuthority("ADMIN", "SUPERUSER")
+                .antMatchers("/event").hasRole("ADMIN")
+                .antMatchers("/event").hasRole("ADMIN")
+                .antMatchers( "/event/delete").hasRole("ADMIN")
+                .antMatchers("/{username}/authorities").hasRole("ÄDMIN")
+                .antMatchers("/{username}/authorities/{authority}").hasRole("ADMIN")
+
+                .antMatchers(HttpMethod.POST,"/Bible/{bookname}/{chapter}/{verse}/photo").hasAnyRole("ADMIN", "SUPERUSER")
+                .antMatchers("/upload").hasAnyRole("ADMIN", "SUPERUSER")
+                .antMatchers("/event").hasAnyRole("ADMIN","SUPERUSER")
+                .antMatchers("/event/delete").hasAnyRole("ADMIN","SUPERUSER")
+
+                .antMatchers("/Bible/**").hasAnyRole("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/Bible").hasAnyRole("ADMIN","SUPERUSER", "ÜSER")
+                .antMatchers("/creed").hasAnyRole("ADMIN","SUPERUSER", "ÜSER")
+                .antMatchers("/allevents").hasAnyRole("ADMIN","SUPERUSER", "USER")
+                .antMatchers("/events").hasAnyRole("ADMIN","SUPERUSER", "USER")
+                .antMatchers("/Catechisms").hasAnyRole("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/Catechisms/**").hasAnyRole("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/download/{fileName}").hasAnyRole("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/{username}").hasAnyRole("ADMIN", "SUPERUSER", "USER")
 
                 /*voeg de antmatchers toe voor admin(post en delete) en user (overige)*/
                 .antMatchers("/authenticated").authenticated()

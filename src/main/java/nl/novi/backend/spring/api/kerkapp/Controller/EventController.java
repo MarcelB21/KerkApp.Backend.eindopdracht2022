@@ -21,33 +21,29 @@ public class EventController {
     }
 
     @GetMapping (value="/allevents")
-    public List<EventDto> getAllEvents() {
-        eventService.getAllEvents();
-        return (List<EventDto>) ResponseEntity.ok();
+    public ResponseEntity<List<EventDto>> getAllEvents() {
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @PostMapping (value="/event")
-    public EventDto addEvent(@RequestBody EventDto eventDto) {
-        eventService.addEvent(eventDto);
-        return ResponseEntity.ok(eventDto).getBody();
+    public ResponseEntity<EventDto> addEvent(@RequestBody EventDto eventDto) {
+        return ResponseEntity.ok(eventService.addEvent(eventDto));
     }
 
     @PutMapping(value="/event")
-    public ResponseEntity<Object> updateEvent(@RequestBody EventDto eventDto, @RequestParam(value = "id", required = true)Long Id ) {
-        eventService.updateEvent(eventDto, Id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<EventDto> updateEvent(@RequestBody EventDto eventDto, @RequestParam(value = "id", required = true)Long Id ) {
+        return ResponseEntity.ok(eventService.updateEvent(eventDto, Id));
     }
 
     @DeleteMapping(value="/event/delete")
-    public String removeEvent(@RequestParam(value = "id", required = true)Long Id ) {
+    public ResponseEntity<String> removeEvent(@RequestParam(value = "id", required = true)Long Id ) {
         eventService.removeEvent(Id);
-        String value = "event "+ Id + " is verwijderd!";
-        return ResponseEntity.noContent().build().toString();
+        return ResponseEntity.ok("event "+ Id + " is verwijderd!");
     }
 
     @GetMapping(value="/events")
-    public List<EventDto> getEventsInRange(@RequestParam(value = "start", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate start,
+    public ResponseEntity<List<EventDto>> getEventsInRange(@RequestParam(value = "start", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate start,
                                            @RequestParam(value = "finish", required = true) @DateTimeFormat(pattern="dd-MM-yyyy") LocalDate finish) {
-        return ResponseEntity.ok(eventService.getEventsInRange(start, finish)).getBody();
+        return ResponseEntity.ok(eventService.getEventsInRange(start, finish));
     }
 }

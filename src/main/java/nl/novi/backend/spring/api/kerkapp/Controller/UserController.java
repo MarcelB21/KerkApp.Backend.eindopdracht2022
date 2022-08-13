@@ -40,7 +40,7 @@ public class UserController {
 
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/{username}")
     public ResponseEntity<UserDto> createKlant(@RequestBody UserDto dto) {;
 
         String newUsername = userService.createUser(dto);

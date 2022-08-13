@@ -49,7 +49,7 @@ public class BibleController {
         return ResponseEntity.ok(photo);
     }
 
-    @GetMapping("/Bible/{bookname}/chapter/{start}/{end}")
+    @GetMapping("/Bible")
     public ResponseEntity<BibleDto> getByVerseBetweenVerse(@RequestParam (value = "bookname", required = false) String bookname, @RequestParam (value = "chapter", required = false) int chapter, @RequestParam (value = "start", required = false) int start, @RequestParam (value = "end", required = false) int end) {
         BibleDto bibleDto = bibleService.getByVerseBetweenVerse(bookname, chapter, start, end);
         return ResponseEntity.ok().body(bibleDto);
