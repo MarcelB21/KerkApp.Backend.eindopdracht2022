@@ -24,7 +24,7 @@ public class BibleController {
     }
 
     @GetMapping("/Bible/{bookname}")
-    public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) {
+    public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) throws RecordNotFoundException {
         List<BibleDto> foundBooks = bibleService.getVersesByBookname(bookname);
         return ResponseEntity.ok().body(foundBooks);
     }
@@ -42,10 +42,11 @@ public class BibleController {
     }
 
     @PostMapping("/Bible/{bookname}/{chapter}/{verse}/photo")
-    public void assignPhotoToBibleVerse(@PathVariable(value = "bookname") String bookname, @PathVariable int chapter, @PathVariable int verse, @RequestBody MultipartFile file) throws RecordNotFoundException {
+    public ResponseEntity<FileUploadResponse> assignPhotoToBibleVerse(@PathVariable(value = "bookname") String bookname, @PathVariable int chapter, @PathVariable int verse, @RequestBody MultipartFile file) throws RecordNotFoundException {
         FileUploadResponse photo = controller.singleFileUpload(file);
 
         bibleService.assignPhotoToBibleVerse(bookname, chapter, verse, file);
+        return ResponseEntity.ok(photo);
     }
 
     @GetMapping("/Bible")
@@ -54,7 +55,7 @@ public class BibleController {
         return ResponseEntity.ok().body(bibleDto);
     }
 
-    @GetMapping("/Bible/test/{keyword}")
+    @GetMapping("/Bible/keyword/{keyword}")
     public ResponseEntity<List<Bible>> getByKeyword(@PathVariable String keyword) {
         List<Bible> foundBooks = bibleService.getVersesByKeyword(keyword);
         return ResponseEntity.ok().body(foundBooks);

@@ -18,8 +18,7 @@ public class CreedController {
 
     @GetMapping(value="/creed")
     public ResponseEntity<String> getAllCreed() {
-        String getAllCreed = creedservice.getAllCreed();
-        return ResponseEntity.ok().body(getAllCreed);
+        return ResponseEntity.ok().body(creedservice.getAllCreed());
     }
 
 }
