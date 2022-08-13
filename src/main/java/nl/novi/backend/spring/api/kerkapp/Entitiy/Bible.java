@@ -81,6 +81,22 @@ public class Bible {
         this.file = file;
     }
 
+    public void setBookname(String bookname) {
+        this.bookname = bookname;
+    }
+
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
+    }
+
+    public void setVerse(int verse) {
+        this.verse = verse;
+    }
+
+    public void setScripture(String scripture) {
+        this.scripture = scripture;
+    }
+
     public FileUploadResponse getFile() {
         return file;
     }
