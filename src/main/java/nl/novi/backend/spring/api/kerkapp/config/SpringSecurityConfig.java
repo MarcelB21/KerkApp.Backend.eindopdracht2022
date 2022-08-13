@@ -57,35 +57,29 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().and().csrf().disable().formLogin().disable()
                 .cors().and()
                 .authorizeRequests()
+                .antMatchers("/authenticate").permitAll()/*allen dit punt mag toegankelijk zijn voor niet ingelogde gebruikers*/
+                .antMatchers("/authenticated").authenticated()
                 .antMatchers( "/users").permitAll()
                 .antMatchers("/users").hasRole("ADMIN")
                 .antMatchers("/users/**").hasRole("ADMIN")
-                .antMatchers( "/users/**").hasRole("ADMIN")
+                .antMatchers("/event/**").hasRole("ADMIN")
 
-                .antMatchers("/event").hasRole("ADMIN")
-                .antMatchers("/event").hasRole("ADMIN")
-                .antMatchers( "/event/delete").hasRole("ADMIN")
                 .antMatchers("/{username}/authorities").hasRole("ÄDMIN")
                 .antMatchers("/{username}/authorities/{authority}").hasRole("ADMIN")
 
                 .antMatchers(HttpMethod.POST,"/Bible/{bookname}/{chapter}/{verse}/photo").hasAnyRole("ADMIN", "SUPERUSER")
                 .antMatchers("/upload").hasAnyRole("ADMIN", "SUPERUSER")
-                .antMatchers("/event").hasAnyRole("ADMIN","SUPERUSER")
-                .antMatchers("/event/delete").hasAnyRole("ADMIN","SUPERUSER")
 
                 .antMatchers("/Bible/**").hasAnyRole("ADMIN", "SUPERUSER", "USER")
                 .antMatchers("/Bible").hasAnyRole("ADMIN","SUPERUSER", "ÜSER")
                 .antMatchers("/creed").hasAnyRole("ADMIN","SUPERUSER", "ÜSER")
-                .antMatchers("/allevents").hasAnyRole("ADMIN","SUPERUSER", "USER")
-                .antMatchers("/events").hasAnyRole("ADMIN","SUPERUSER", "USER")
                 .antMatchers("/Catechisms").hasAnyRole("ADMIN", "SUPERUSER", "USER")
                 .antMatchers("/Catechisms/**").hasAnyRole("ADMIN", "SUPERUSER", "USER")
                 .antMatchers("/download/{fileName}").hasAnyRole("ADMIN", "SUPERUSER", "USER")
                 .antMatchers("/{username}").hasAnyRole("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/events/all").hasAnyRole("ADMIN", "SUPERUSER", "USER")
 
                 /*voeg de antmatchers toe voor admin(post en delete) en user (overige)*/
-                .antMatchers("/authenticated").authenticated()
-                .antMatchers("/authenticate").permitAll()/*allen dit punt mag toegankelijk zijn voor niet ingelogde gebruikers*/
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
 //                .anyRequest().permitAll()
