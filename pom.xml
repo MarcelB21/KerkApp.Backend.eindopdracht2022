@@ -36,11 +36,6 @@
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>momentjs</artifactId>
-            <version>2.29.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
             <artifactId>jquery-ui</artifactId>
             <version>1.13.1</version>
         </dependency>
@@ -80,6 +75,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

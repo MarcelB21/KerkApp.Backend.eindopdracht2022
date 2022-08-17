@@ -40,7 +40,7 @@ public class UserController {
 
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/create")
     public ResponseEntity<UserDto> createKlant(@RequestBody UserDto dto) {;
 
         String newUsername = userService.createUser(dto);
@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @PutMapping(value = "/{username}")
+    @PutMapping(value = "/update/{username}")
     public ResponseEntity<UserDto> updateKlant(@PathVariable("username") String username, @RequestBody UserDto dto) throws RecordNotFoundException {
 
         userService.updateUser(username, dto);
@@ -60,7 +60,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value = "/{username}")
+    @DeleteMapping(value = "/delete/{username}")
     public ResponseEntity<Object> deleteKlant(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
