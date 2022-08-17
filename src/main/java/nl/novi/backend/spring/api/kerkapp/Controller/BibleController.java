@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/Bible")
 public class BibleController {
     private final BibleService bibleService;
     private final PhotoController controller;
@@ -23,25 +24,25 @@ public class BibleController {
         this.controller = controller;
     }
 
-    @GetMapping("/Bible/{bookname}")
+    @GetMapping("/{bookname}")
     public ResponseEntity<List<BibleDto>> getByBibleBook(@PathVariable String bookname) throws RecordNotFoundException {
         List<BibleDto> foundBooks = bibleService.getVersesByBookname(bookname);
         return ResponseEntity.ok().body(foundBooks);
     }
 
-    @GetMapping("/Bible/{bookname}/{chapter}")
+    @GetMapping("/{bookname}/{chapter}")
     public ResponseEntity<BibleDto> getByChapter(@PathVariable String bookname, @PathVariable int chapter) {
         BibleDto foundChapter = bibleService.getVerseByBooknameChapter(bookname, chapter);
         return ResponseEntity.ok().body(foundChapter);
     }
 
-    @GetMapping("/Bible/{bookname}/{chapter}/{verse}")
+    @GetMapping("/{bookname}/{chapter}/{verse}")
     public ResponseEntity<BibleDto> getVersebybookname(@PathVariable(value = "bookname") String bookname, @PathVariable int chapter, @PathVariable int verse) throws RecordNotFoundException {
         BibleDto TGfoundVerse = bibleService.getVerseByBooknameChapterVerse(bookname, chapter, verse);
         return ResponseEntity.ok().body(TGfoundVerse);
     }
 
-    @PostMapping("/Bible/{bookname}/{chapter}/{verse}/photo")
+    @PostMapping("/{bookname}/{chapter}/{verse}/photo")
     public ResponseEntity<FileUploadResponse> assignPhotoToBibleVerse(@PathVariable(value = "bookname") String bookname, @PathVariable int chapter, @PathVariable int verse, @RequestBody MultipartFile file) throws RecordNotFoundException {
         FileUploadResponse photo = controller.singleFileUpload(file);
 
@@ -49,13 +50,13 @@ public class BibleController {
         return ResponseEntity.ok(photo);
     }
 
-    @GetMapping("/Bible")
+    @GetMapping("")
     public ResponseEntity<BibleDto> getByVerseBetweenVerse(@RequestParam (value = "bookname", required = false) String bookname, @RequestParam (value = "chapter", required = false) int chapter, @RequestParam (value = "start", required = false) int start, @RequestParam (value = "end", required = false) int end) {
         BibleDto bibleDto = bibleService.getByVerseBetweenVerse(bookname, chapter, start, end);
         return ResponseEntity.ok().body(bibleDto);
     }
 
-    @GetMapping("/Bible/keyword/{keyword}")
+    @GetMapping("/keyword/{keyword}")
     public ResponseEntity<List<Bible>> getByKeyword(@PathVariable String keyword) {
         List<Bible> foundBooks = bibleService.getVersesByKeyword(keyword);
         return ResponseEntity.ok().body(foundBooks);

@@ -54,29 +54,32 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //JWT token authentication
         http
-                .httpBasic().and().csrf().disable().formLogin().disable()
-                .cors().and()
+                .httpBasic().and().cors().and().csrf().disable().formLogin().disable()
+
                 .authorizeRequests()
                 .antMatchers("/authenticate", "/users/create").permitAll()/*allen dit punt mag toegankelijk zijn voor niet ingelogde gebruikers*/
+                .antMatchers("/download/**").authenticated()
                 .antMatchers("/authenticated").authenticated()
+
                 .antMatchers( "/users/all").authenticated()
-
                 .antMatchers("/users/**").hasAuthority("ADMIN")
-                .antMatchers("/event/**").hasAuthority("ADMIN")
-                .antMatchers("/events/add").hasAuthority("ADMIN")
 
-                .antMatchers("/{username}/authorities").hasAuthority("ÄDMIN")
-                .antMatchers("/{username}/authorities/{authority}").hasAuthority("ADMIN")
+                .antMatchers("/events/all").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
+                .antMatchers("/events/**").hasAuthority("ADMIN")
 
                 .antMatchers(HttpMethod.POST,"/Bible/{bookname}/{chapter}/{verse}/photo").hasAnyAuthority("ADMIN", "SUPERUSER")
-                .antMatchers("/upload").hasAnyAuthority("ADMIN", "SUPERUSER")
 
                 .antMatchers("/Bible/**").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
-                .antMatchers("/Bible").hasAnyAuthority("ADMIN","SUPERUSER", "ÜSER")
-                .antMatchers("/creed").hasAnyAuthority("ADMIN","SUPERUSER", "ÜSER")
-                .antMatchers("/Catechisms").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
+
                 .antMatchers("/Catechisms/**").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
-                .antMatchers("/download/{fileName}").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
+
+                .antMatchers("/creed").hasAnyAuthority("ADMIN","SUPERUSER", "USER")
+
+                .antMatchers("/{username}/**").hasAuthority("ÄDMIN")
+
+                .antMatchers("/upload").hasAnyAuthority("ADMIN", "SUPERUSER")
+
+
                 .antMatchers("/{username}").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
                 .antMatchers("/events/all").hasAnyAuthority("ADMIN", "SUPERUSER", "USER")
 
